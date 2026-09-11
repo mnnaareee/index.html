@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Teacher!</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Press+Start+2P&family=Quicksand:wght@500;600;700&family=Fredoka:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/confetti.browser.min.js"></script>
+
+    <!-- html2canvas Library for saving letter as PNG image -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- YouTube IFrame Player API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cursive: ['"Great Vibes"', 'cursive'],
+                        playfulCursive: ['"Dancing Script"', 'cursive'],
+                        sans: ['"Quicksand"', 'sans-serif'],
+                        display: ['"Fredoka"', 'sans-serif'],
+                        pixel: ['"Press Start 2P"', 'monospace'],
+                    },
+                    colors: {
+                        pinkSoft: '#FCE7F3',
+                        pinkVibrant: '#EC4899',
+                        pinkDeep: '#BE185D',
+                        pinkLight: '#FDF2F8',
+                        blackShade: '#0a0206',
+                    },
+                    animation: {
+                        'float-slow': 'float 6s ease-in-out infinite',
+                        'bounce-gentle': 'bounceGentle 2s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2.5s ease-in-out infinite',
+                        'flicker': 'flicker 0.15s infinite alternate',
+                        'plane-flyby': 'planeFlyBy 2.4s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+                        'shake': 'shake 0.4s ease-in-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-12px) rotate(2deg)' },
+                        },
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 12px rgba(236, 72, 153, 0.6))' },
+                            '50%': { filter: 'drop-shadow(0 0 26px rgba(219, 39, 119, 0.9))' },
+                        },
+                        flicker: {
+                            '0%': { transform: 'scale(1) rotate(-1deg)', opacity: '0.95' },
+                            '100%': { transform: 'scale(1.1) rotate(1deg)', opacity: '1' },
+                        },
+                        planeFlyBy: {
+                            '0%': { transform: 'translate(-100vw, 30vh) rotate(-15deg) scale(0.6)', opacity: '0' },
+                            '15%': { opacity: '1' },
+                            '70%': { transform: 'translate(40vw, -10vh) rotate(10deg) scale(1.1)', opacity: '1' },
+                            '100%': { transform: 'translate(100vw, -40vh) rotate(25deg) scale(0.4)', opacity: '0' }
+                        },
+                        shake: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '20%, 60%': { transform: 'translateX(-12px) rotate(-3deg)' },
+                            '40%, 80%': { transform: 'translateX(12px) rotate(3deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background: radial-gradient(circle at 50% 30%, #28081a 0%, #180410 45%, #0c0208 75%, #000000 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            user-select: none;
+            color: #fce7f3;
+        }
+
+        canvas {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .flame, .pixel-flame {
+            image-rendering: pixelated;
+            cursor: pointer;
+            transform-origin: center bottom;
+            transition: transform 0.2s ease, opacity 0.3s ease, filter 0.2s ease;
+        }
+
+        .flame:hover, .pixel-flame:hover {
+            transform: scale(1.25);
+            filter: brightness(1.25) drop-shadow(0 0 8px rgba(251, 191, 36, 0.9));
+        }
+
+        .flame.extinguish, .pixel-flame.extinguish {
+            animation: blowOut 0.5s ease-out forwards !important;
+        }
+
+        @keyframes blowOut {
+            0% { transform: scale(1) skewX(0deg); opacity: 1; }
+            30% { transform: scale(1.4, 0.5) skewX(-25deg); opacity: 0.9; }
+            60% { transform: scale(0.3, 1.6) skewX(20deg); opacity: 0.4; filter: blur(2px); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .flame-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 28px;
+            height: 28px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.6) 0%, rgba(249, 115, 22, 0.2) 60%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pulseAura 1.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseAura {
+            0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1.25); opacity: 1; }
+        }
+
+        .cake-frag {
+            transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
+            transform-origin: center center;
+        }
+
+        .candle-item {
+            transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .cake-exploded #fragPlateLeft { transform: translate(-75px, 60px) rotate(-35deg); }
+        .cake-exploded #fragPlateRight { transform: translate(85px, 65px) rotate(40deg); }
+
+        .cake-exploded #fragBot1 { transform: translate(-130px, 80px) rotate(-65deg); }
+        .cake-exploded #fragBot2 { transform: translate(-20px, 95px) rotate(20deg); }
+        .cake-exploded #fragBot3 { transform: translate(110px, 85px) rotate(70deg); }
+
+        .cake-exploded #fragMid1 { transform: translate(-150px, 130px) rotate(-90deg); }
+        .cake-exploded #fragMid2 { transform: translate(140px, 135px) rotate(85deg); }
+
+        .cake-exploded #fragTop1 { transform: translate(-110px, 175px) rotate(-135deg); }
+        .cake-exploded #fragTop2 { transform: translate(105px, 180px) rotate(120deg); }
+
+        .cake-exploded .candle-item[data-candle="0"] { transform: translate(-140px, 200px) rotate(-140deg); }
+        .cake-exploded .candle-item[data-candle="1"] { transform: translate(15px, 215px) rotate(85deg); }
+        .cake-exploded .candle-item[data-candle="2"] { transform: translate(130px, 205px) rotate(150deg); }
+
+        .letter-card {
+            background-color: #12030a;
+            background-image: radial-gradient(#831843 1.2px, transparent 0);
+            background-size: 24px 24px;
+            box-shadow: 0 20px 45px rgba(236, 72, 153, 0.25), 0 0 0 1px rgba(190, 24, 93, 0.5);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c0512;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ec4899;
+            border-radius: 10px;
+        }
+
+        input[type=range] {
+            accent-color: #ec4899;
+        }
+
+        #bdayNoteCard {
+            touch-action: pan-y;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s ease;
+        }
+        #bdayNoteCard:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-pink-100 flex flex-col justify-between min-h-screen relative overflow-x-hidden">
+
+    <!-- Background Canvas for Floating Particles -->
+    <canvas id="bgCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <header class="w-full max-w-6xl mx-auto px-4 pt-4 flex justify-end items-center relative z-20 gap-3">
+        <div class="hidden">
+            <div id="ytPlayer"></div>
+        </div>
+
+        <div class="flex items-center gap-3 bg-slate-950/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-sm border border-pink-500/30">
+            <button id="playPauseBtn" class="text-pink-400 hover:text-pink-300 transition-colors text-lg focus:outline-none" title="Play/Pause Music">
+                <i id="playPauseIcon" class="fa-solid fa-compact-disc animate-spin"></i>
+            </button>
+            
+            <div class="flex items-center gap-2 border-l border-pink-900/60 pl-3">
+                <button id="muteBtn" class="text-pink-400 hover:text-pink-300 transition-colors text-sm focus:outline-none">
+                    <i id="muteIcon" class="fa-solid fa-volume-high"></i>
+                </button>
+                
+                <input type="range" id="volumeSlider" min="0" max="100" value="80" class="w-20 sm:w-28 h-1.5 bg-pink-950 rounded-lg appearance-none cursor-pointer">
+                
+                <span id="volumeVal" class="text-[11px] font-bold text-pink-400 font-pixel w-7 text-right">80%</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full max-w-6xl px-4 py-4 mx-auto flex-1 flex flex-col justify-center items-center relative z-10 min-h-[80vh]">
+
+        <section id="stage1" class="flex flex-col items-center text-center transition-all duration-700 w-full my-auto py-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 border border-pink-500/40 text-pink-400 font-bold text-xs uppercase tracking-widest shadow-sm mb-6 animate-bounce-gentle">
+                <span>❤️</span> teacherrr adalah seoranggg guru yang sangattt sigmaaa, we loveee youuuu! <span>❤️</span>
+            </div>
+
+            <h1 class="font-cursive text-6xl sm:text-7xl md:text-8xl font-bold bg-gradient-to-r from-pink-400 via-rose-300 to-pink-600 bg-clip-text text-transparent filter drop-shadow-[0_4px_12px_rgba(236,72,153,0.5)] my-1 py-1 leading-tight">
+                Happy Birthday Teacher!!
+            </h1>
+
+            <div class="inline-flex items-center gap-2 bg-pink-950/80 text-pink-300 font-pixel text-xs sm:text-sm px-4 py-1.5 rounded-full border border-pink-700/60 shadow-sm my-3 transform hover:scale-105 transition-transform">
+                <span>📅</span> 21.10.2026
+            </div>
+
+            <p class="font-sans text-pink-100/90 text-lg sm:text-xl max-w-md mt-2 mb-8 font-semibold">
+                click the music player to start the song
+            </p>
+
+            <button id="continueBtn" class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-300 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-700 rounded-full shadow-lg hover:shadow-pink-500/50 hover:scale-105 active:scale-95 focus:outline-none">
+                <span class="flex items-center gap-2 tracking-wider">
+                    Continue <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </span>
+            </button>
+        </section>
+
+        <section id="stageDino" class="hidden opacity-0 flex flex-col items-center justify-center text-center transition-all duration-700 w-full my-auto">
+            <div class="bg-[#0f030a] border-4 border-pink-600 p-4 sm:p-6 rounded-3xl shadow-2xl w-full max-w-4xl relative overflow-hidden">
+                
+                <div id="motivationToast" class="absolute top-3 sm:top-5 left-1/2 -translate-x-1/2 z-30 transition-all duration-300 pointer-events-none opacity-0 transform -translate-y-2 max-w-[90%]">
+                    <span id="motivationText" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-pink-600/95 to-rose-700/95 backdrop-blur-md text-white font-bold text-[10px] sm:text-xs px-3 py-1 rounded-full shadow-md border border-pink-400/80 whitespace-nowrap overflow-hidden text-ellipsis">
+                         you are the best! 
+                    </span>
+                </div>
+
+                <div class="flex justify-between items-center mb-4 font-pixel text-xs sm:text-sm text-pink-300 px-3">
+                    <div class="flex items-center gap-2">
+                        <span>🤍</span>
+                        <span class="font-bold text-pink-400">Rawrrr Runner</span>
+                    </div>
+                    <div>
+                        <span>TIME LEFT: </span>
+                        <span id="dinoTimer" class="text-pink-400 font-bold text-sm sm:text-base">30</span>s
+                    </div>
+                </div>
+
+                <div class="relative w-full overflow-hidden bg-[#0d0208] rounded-xl border-2 border-pink-900 cursor-pointer shadow-inner" id="gameCanvasContainer">
+                    <canvas id="dinoCanvas" width="950" height="260" class="w-full h-auto block"></canvas>
+                </div>
+
+                <p class="text-xs text-pink-300/70 font-medium mt-3">
+                    <i class="fa-solid fa-hand-pointer animate-bounce mr-1"></i> Press <span class="font-pixel text-[10px] bg-pink-950 text-pink-200 px-1.5 py-0.5 rounded">SPACE</span> or <span class="font-pixel text-[10px] bg-pink-950 text-pink-200 px-1.5 py-0.5 rounded">TAP SCREEN</span> to jump!
+                </p>
+            </div>
+        </section>
+
+        <!-- Dino Crash Restart Modal -->
+        <div id="dinoRestartModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 hidden opacity-0 transition-all duration-300">
+            <div class="bg-slate-950 border-2 border-pink-500/60 p-6 sm:p-8 rounded-3xl shadow-2xl text-center max-w-sm w-11/12 transform transition-all duration-300">
+                <div class="text-5xl mb-3 animate-bounce">💥</div>
+                <h3 class="font-pixel text-lg text-pink-200 mb-2">oh naurrr! terlanggar cactus laaa pulakkk</h3>
+                <p class="text-pink-300/80 text-xs mb-6 font-sans">would you like to restart? click yes plis hihi</p>
+                
+                <div class="flex gap-4 justify-center">
+                    <button id="dinoRestartYesBtn" class="px-6 py-2.5 rounded-full bg-pink-600 hover:bg-pink-500 text-white font-bold transition-all shadow-md hover:scale-105 active:scale-95 text-sm flex items-center gap-1.5">
+                        <i class="fa-solid fa-rotate-left"></i> yeee laaa (Restart)
+                    </button>
+                    <button id="dinoRestartNoBtn" class="px-6 py-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-pink-200 font-bold transition-all shadow-sm hover:scale-105 active:scale-95 text-sm">
+                        nahhhh
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Go In Modal -->
+        <div id="goInModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 hidden opacity-0 transition-all duration-500">
+            <div id="goInCard" class="bg-slate-950 border-2 border-pink-500/60 p-6 sm:p-8 rounded-3xl shadow-2xl text-center max-w-sm w-11/12 transform scale-95 transition-all duration-300">
+                <div class="text-4xl mb-3 animate-bounce">🏠</div>
+                <h3 id="goInTitle" class="font-pixel text-xl text-pink-200 mb-3">goo innn?</h3>
+                <p id="goInSubtitle" class="text-pink-300/80 text-xs mb-6 font-sans">yayyy teacher dah sampaii, there are people waiting for you!</p>
+                
+                <div class="flex gap-4 justify-center">
+                    <button id="goInYesBtn" class="px-6 py-2.5 rounded-full bg-pink-600 hover:bg-pink-500 text-white font-bold transition-all shadow-md hover:scale-105 active:scale-95 text-sm">
+                        let's goo
+                    </button>
+                    <button id="goInNoBtn" class="px-6 py-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-pink-200 font-bold transition-all shadow-sm hover:scale-105 active:scale-95 text-sm">
+                        takmau aaaaa
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <section id="stageHouseInside" class="hidden opacity-0 flex flex-col items-center justify-center text-center transition-all duration-700 w-full my-auto">
+            <div class="bg-[#12030b] border-4 border-pink-600 p-4 sm:p-6 rounded-3xl shadow-2xl w-full max-w-5xl relative flex flex-col items-center">
+                
+                <div class="text-2xl sm:text-4xl mb-1 tracking-widest font-display font-bold text-pink-400">happy birthdayyy </div>
+                
+                <h3 class="font-pixel text-xs sm:text-sm text-pink-300 mb-3 tracking-wider">yayyy dah masuk rumah! SURPRISEEEE! </h3>
+
+                <div class="w-full bg-[#0a0206] border-2 border-pink-700 rounded-2xl overflow-hidden shadow-inner mb-4 flex justify-center items-center">
+                    <canvas id="houseCanvas" width="950" height="460" class="w-full h-auto block max-h-[65vh] object-contain"></canvas>
+                </div>
+
+                <div class="flex flex-wrap gap-3 justify-center items-center mt-1">
+                    <button id="openMainCakeBtn" class="px-7 py-3 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-pink-700 text-white font-bold text-sm sm:text-base shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                        <span>Blow the candles</span> 
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="stage2" class="hidden opacity-0 flex flex-col items-center justify-center text-center transition-all duration-700 w-full my-auto min-h-[60vh] relative">
+            
+            <div id="candleInstructionNote" class="bg-slate-900/90 backdrop-blur-md border-2 border-pink-500 px-6 py-3 rounded-2xl shadow-md mb-6 animate-bounce-gentle flex items-center gap-3 max-w-md">
+                <span class="text-2xl" id="candleInstructionIcon">🕯️</span>
+                <p id="candleInstructionText" class="font-display font-medium text-pink-200 text-sm md:text-base">
+                    click on the candle flames to blow them out!
+                </p>
+            </div>
+
+            <!-- Cake Wrapper Container -->
+            <div id="cakeWrapper" class="relative w-full max-w-[340px] sm:max-w-[380px] aspect-[340/280] mx-auto my-2 flex justify-center items-center transition-all">
+                
+                <svg id="cakeSvg" viewBox="0 0 340 280" class="w-full h-full drop-shadow-2xl overflow-visible" style="shape-rendering: crispEdges;">
+                    <!-- Plate Group divided into 2 fragments -->
+                    <g id="layerPlate">
+                        <g id="fragPlateLeft" class="cake-frag">
+                            <rect x="20" y="250" width="150" height="20" fill="#3b0726"/>
+                            <rect x="10" y="240" width="160" height="10" fill="#220416"/>
+                        </g>
+                        <g id="fragPlateRight" class="cake-frag">
+                            <rect x="170" y="250" width="150" height="20" fill="#3b0726"/>
+                            <rect x="170" y="240" width="160" height="10" fill="#220416"/>
+                        </g>
+                    </g>
+
+                    <!-- Bottom Cake Layer Group divided into 3 fragments -->
+                    <g id="layerBot">
+                        <g id="fragBot1" class="cake-frag">
+                            <rect x="40" y="170" width="85" height="70" fill="#be185d" stroke="#831843" stroke-width="2"/>
+                            <rect x="40" y="170" width="85" height="15" fill="#f472b6"/>
+                            <rect x="50" y="185" width="20" height="15" fill="#f472b6"/>
+                            <rect x="90" y="185" width="30" height="20" fill="#f472b6"/>
+                            <rect x="70" y="215" width="10" height="10" fill="#fbcfe8"/>
+                        </g>
+                        <g id="fragBot2" class="cake-frag">
+                            <rect x="125" y="170" width="90" height="70" fill="#be185d" stroke="#831843" stroke-width="2"/>
+                            <rect x="125" y="170" width="90" height="15" fill="#f472b6"/>
+                            <rect x="150" y="185" width="25" height="15" fill="#f472b6"/>
+                            <rect x="200" y="185" width="15" height="25" fill="#f472b6"/>
+                            <rect x="120" y="215" width="10" height="10" fill="#fbcfe8"/>
+                            <rect x="170" y="215" width="10" height="10" fill="#fbcfe8"/>
+                        </g>
+                        <g id="fragBot3" class="cake-frag">
+                            <rect x="215" y="170" width="85" height="70" fill="#be185d" stroke="#831843" stroke-width="2"/>
+                            <rect x="215" y="170" width="85" height="15" fill="#f472b6"/>
+                            <rect x="215" y="185" width="20" height="25" fill="#f472b6"/>
+                            <rect x="260" y="185" width="20" height="15" fill="#f472b6"/>
+                            <rect x="220" y="215" width="10" height="10" fill="#fbcfe8"/>
+                            <rect x="270" y="215" width="10" height="10" fill="#fbcfe8"/>
+                        </g>
+                    </g>
+
+                    <!-- Middle Cake Layer Group divided into 2 fragments -->
+                    <g id="layerMid">
+                        <g id="fragMid1" class="cake-frag">
+                            <rect x="70" y="110" width="100" height="60" fill="#db2777" stroke="#be185d" stroke-width="2"/>
+                            <rect x="70" y="110" width="100" height="15" fill="#fbcfe8"/>
+                            <rect x="85" y="125" width="20" height="20" fill="#fbcfe8"/>
+                            <rect x="130" y="125" width="30" height="15" fill="#fbcfe8"/>
+                            <rect x="95" y="150" width="8" height="8" fill="#F43F5E"/>
+                            <rect x="145" y="145" width="8" height="8" fill="#FACC15"/>
+                        </g>
+                        <g id="fragMid2" class="cake-frag">
+                            <rect x="170" y="110" width="100" height="60" fill="#db2777" stroke="#be185d" stroke-width="2"/>
+                            <rect x="170" y="110" width="100" height="15" fill="#fbcfe8"/>
+                            <rect x="180" y="125" width="25" height="25" fill="#fbcfe8"/>
+                            <rect x="235" y="125" width="20" height="15" fill="#fbcfe8"/>
+                            <rect x="195" y="150" width="8" height="8" fill="#4ADE80"/>
+                            <rect x="235" y="145" width="8" height="8" fill="#A855F7"/>
+                        </g>
+                    </g>
+
+                    <!-- Top Cake Layer Group divided into 2 fragments -->
+                    <g id="layerTop">
+                        <g id="fragTop1" class="cake-frag">
+                            <rect x="100" y="60" width="70" height="50" fill="#f472b6" stroke="#db2777" stroke-width="2"/>
+                            <rect x="100" y="60" width="70" height="15" fill="#FFFFFF"/>
+                            <rect x="110" y="75" width="15" height="12" fill="#FFFFFF"/>
+                            <rect x="145" y="75" width="20" height="15" fill="#FFFFFF"/>
+                            <rect x="108" y="52" width="8" height="8" fill="#EF4444"/>
+                            <rect x="111" y="48" width="2" height="4" fill="#15803D"/>
+                        </g>
+                        <g id="fragTop2" class="cake-frag">
+                            <rect x="170" y="60" width="70" height="50" fill="#f472b6" stroke="#db2777" stroke-width="2"/>
+                            <rect x="170" y="60" width="70" height="15" fill="#FFFFFF"/>
+                            <rect x="180" y="75" width="15" height="12" fill="#FFFFFF"/>
+                            <rect x="210" y="75" width="20" height="15" fill="#FFFFFF"/>
+                            <rect x="166" y="52" width="8" height="8" fill="#EF4444"/>
+                            <rect x="224" y="52" width="8" height="8" fill="#EF4444"/>
+                            <rect x="169" y="48" width="2" height="4" fill="#15803D"/>
+                            <rect x="227" y="48" width="2" height="4" fill="#15803D"/>
+                        </g>
+                    </g>
+                </svg>
+
+                <!-- Candle 1 -->
+                <div class="absolute bottom-[78.57%] left-[37%] -translate-x-1/2 flex flex-col items-center group cursor-pointer candle-item z-20" data-candle="0">
+                    <div id="candleFlame1" class="pixel-flame animate-flicker mb-0.5 relative flex items-center justify-center" title="Click to blow out!">
+                        <div class="flame-glow"></div>
+                        <svg width="18" height="24" viewBox="0 0 12 16" style="shape-rendering: crispEdges;" class="relative z-10">
+                            <rect x="5" y="0" width="2" height="2" fill="#FFFFFF"/>
+                            <rect x="4" y="2" width="4" height="3" fill="#FEF08A"/>
+                            <rect x="3" y="5" width="6" height="5" fill="#F97316"/>
+                            <rect x="4" y="10" width="4" height="4" fill="#EF4444"/>
+                            <rect x="5" y="14" width="2" height="2" fill="#1E293B"/>
+                        </svg>
+                    </div>
+                    <div class="w-1 h-2 bg-slate-800"></div>
+                    <div class="w-4 h-12 bg-pink-400 border-[1.5px] border-slate-800 relative shadow-sm rounded-t-sm flex flex-col justify-between overflow-hidden">
+                        <div class="w-full h-2 bg-white border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-pink-600 border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-white border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-pink-600"></div>
+                    </div>
+                    <div class="w-5 h-1 bg-white/90 border border-slate-800 rounded-full -mt-0.5"></div>
+                </div>
+
+                <!-- Candle 2 -->
+                <div class="absolute bottom-[78.57%] left-[50%] -translate-x-1/2 flex flex-col items-center group cursor-pointer candle-item z-20" data-candle="1">
+                    <div id="candleFlame2" class="pixel-flame animate-flicker mb-0.5 relative flex items-center justify-center" title="Click to blow out!">
+                        <div class="flame-glow"></div>
+                        <svg width="20" height="26" viewBox="0 0 12 16" style="shape-rendering: crispEdges;" class="relative z-10">
+                            <rect x="5" y="0" width="2" height="2" fill="#FFFFFF"/>
+                            <rect x="4" y="2" width="4" height="3" fill="#FEF08A"/>
+                            <rect x="3" y="5" width="6" height="5" fill="#F97316"/>
+                            <rect x="4" y="10" width="4" height="4" fill="#EF4444"/>
+                            <rect x="5" y="14" width="2" height="2" fill="#1E293B"/>
+                        </svg>
+                    </div>
+                    <div class="w-1 h-2 bg-slate-800"></div>
+                    <div class="w-5 h-14 bg-amber-300 border-[1.5px] border-slate-800 relative shadow-sm rounded-t-sm flex flex-col justify-between overflow-hidden">
+                        <div class="w-full h-2 bg-pink-400 border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-amber-200 border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-pink-400 border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-amber-200"></div>
+                    </div>
+                    <div class="w-6 h-1.5 bg-amber-200 border border-slate-800 rounded-full -mt-0.5"></div>
+                </div>
+
+                <!-- Candle 3 -->
+                <div class="absolute bottom-[78.57%] left-[63%] -translate-x-1/2 flex flex-col items-center group cursor-pointer candle-item z-20" data-candle="2">
+                    <div id="candleFlame3" class="pixel-flame animate-flicker mb-0.5 relative flex items-center justify-center" title="Click the flame to blow out!">
+                        <div class="flame-glow"></div>
+                        <svg width="18" height="24" viewBox="0 0 12 16" style="shape-rendering: crispEdges;" class="relative z-10">
+                            <rect x="5" y="0" width="2" height="2" fill="#FFFFFF"/>
+                            <rect x="4" y="2" width="4" height="3" fill="#FEF08A"/>
+                            <rect x="3" y="5" width="6" height="5" fill="#F97316"/>
+                            <rect x="4" y="10" width="4" height="4" fill="#EF4444"/>
+                            <rect x="5" y="14" width="2" height="2" fill="#1E293B"/>
+                        </svg>
+                    </div>
+                    <div class="w-1 h-2 bg-slate-800"></div>
+                    <div class="w-4 h-12 bg-pink-400 border-[1.5px] border-slate-800 relative shadow-sm rounded-t-sm flex flex-col justify-between overflow-hidden">
+                        <div class="w-full h-2 bg-white border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-pink-600 border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-white border-b border-slate-800"></div>
+                        <div class="w-full h-2 bg-pink-600"></div>
+                    </div>
+                    <div class="w-5 h-1 bg-white/90 border border-slate-800 rounded-full -mt-0.5"></div>
+                </div>
+
+            </div>
+
+            <p class="text-pink-300 font-medium text-xs mt-4">
+                <i class="fa-solid fa-hand-pointer animate-bounce mr-1"></i> may Allah permudahkan segala urusan teacherr and semoga teacher dimurahkan rezeki, aaminn
+            </p>
+        </section>
+
+        <div id="confirmModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-40 hidden opacity-0 transition-all duration-500">
+            
+            <div id="confirmStep1" class="bg-slate-950 border-2 border-pink-500/60 p-8 rounded-3xl shadow-2xl text-center max-w-sm w-11/12 transform scale-95 transition-all duration-300">
+                <div class="text-4xl mb-3 animate-bounce">🤍</div>
+                <h3 class="font-sans text-2xl sm:text-3xl font-bold text-pink-400 mb-2">areee you readyyy to open your birthday letterrr?</h3>
+                <p class="text-pink-300/80 text-sm mb-6 font-sans">hmmm, nakk bukak ke tak ekkkk??</p>
+                <div class="flex gap-3 justify-center">
+                    <button id="sureYesBtn1" class="px-6 py-2.5 rounded-full bg-pink-600 hover:bg-pink-500 text-white font-bold transition-all shadow-md hover:scale-105 active:scale-95 text-sm flex items-center gap-2">
+                        hmmm yesshh
+                    </button>
+                    <button id="sureYesBtn2" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-bold transition-all shadow-md hover:scale-105 active:scale-95 text-sm flex items-center gap-2">
+                        ehh, no "no" option? I guess it's a yes..? 🫣 
+                    </button>
+                </div>
+            </div>
+
+            <div id="confirmStep2" class="hidden bg-slate-950 border-2 border-pink-500 p-8 rounded-3xl shadow-2xl text-center max-w-sm w-11/12 transform scale-95 transition-all duration-300">
+                <div class="text-5xl mb-3 animate-pulse">👁️👄👁️</div>
+                <h3 class="font-display font-extrabold text-3xl text-pink-400 mb-2 tracking-wider uppercase">AREEE YOUUU SUREEEEE?</h3>
+                <p class="text-pink-200 text-sm mb-6 font-sans font-medium">iyeekee nak bukakkk teacherrr, omish eh tak nangis HAHA</p>
+                <div class="flex gap-3 justify-center">
+
+           <button id="superSureYesBtn2" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-rose-600 to-pink-500 hover:from-rose-700 hover:to-pink-600 text-white font-extrabold transition-all shadow-lg hover:scale-110 active:scale-95 text-sm flex items-center gap-1.5">
+                        iyeeeeeerrrrr
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <section id="stageQuiz" class="hidden opacity-0 flex flex-col items-center justify-center text-center transition-all duration-700 w-full my-auto py-6">
+            <div class="bg-slate-950/90 backdrop-blur-md border-2 border-pink-500/60 p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-lg relative">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-950 text-pink-300 font-bold text-xs uppercase tracking-wider mb-4">
+                    hihihi senanggg jeeer nihh
+                </div>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-pink-400 mb-6">
+                    nott too fastt! answer theseee questions first yeaaaaa!
+                </h2>
+
+                <div class="space-y-6 text-left" id="quizQuestionsContainer">
+                    <!-- Question 1 -->
+                    <div class="bg-pink-950/40 p-4 rounded-2xl border border-pink-800/60">
+                        <p class="font-bold text-pink-200 text-sm sm:text-base mb-3">1. What's after the letter H in the alphabet?</p>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button type="button" data-q="1" data-val="O" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">O</button>
+                            <button type="button" data-q="1" data-val="M" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">M</button>
+                            <button type="button" data-q="1" data-val="L" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">L</button>
+                            <button type="button" data-q="1" data-val="I" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">I</button>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="bg-pink-950/40 p-4 rounded-2xl border border-pink-800/60">
+                        <p class="font-bold text-pink-200 text-sm sm:text-base mb-3">2. What's the 8th letter in the name Alifah Ilyana?</p>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button type="button" data-q="2" data-val="I" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">I</button>
+                            <button type="button" data-q="2" data-val="Y" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">Y</button>
+                            <button type="button" data-q="2" data-val="L" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">L</button>
+                            <button type="button" data-q="2" data-val="A" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">A</button>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="bg-pink-950/40 p-4 rounded-2xl border border-pink-800/60">
+                        <p class="font-bold text-pink-200 text-sm sm:text-base mb-3">3. What letter comes before Z?</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" data-q="3" data-val="Y" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">Y</button>
+                            <button type="button" data-q="3" data-val="X" class="quiz-opt-btn py-2.5 px-3 rounded-xl border-2 border-pink-800/80 font-bold text-pink-300 hover:bg-pink-900/60 transition-all text-center">X</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="quizErrorMsg" class="hidden mt-4 text-xs font-bold text-rose-400 animate-bounce">
+                     Please select an answer for all 3 questions!
+                </div>
+
+                <button id="submitQuizBtn" class="mt-6 w-full py-3.5 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-pink-700 text-white font-bold text-base shadow-lg hover:shadow-pink-500/50 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+                    <span>Submit</span> <i class="fa-solid fa-paper-plane"></i>
+                </button>
+
+                <div id="quizResultDisplay" class="hidden flex-col items-center justify-center mt-6 pt-6 border-t-2 border-dashed border-pink-800">
+                    <p id="revealStatusText" class="text-xs font-bold text-pink-400 uppercase tracking-widest mb-4">
+                        Revealing your answers...
+                    </p>
+                    
+                    <div id="answerBoxesContainer" class="flex gap-4 sm:gap-6 justify-center items-center my-4 transition-all duration-700">
+                        <div id="boxQ1" class="w-16 h-20 sm:w-20 sm:h-24 bg-pink-950 border-4 border-pink-500 rounded-2xl shadow-xl flex items-center justify-center font-display text-3xl sm:text-4xl font-extrabold text-pink-400 transform transition-all duration-500 animate-pulse">
+                            🔒
+                        </div>
+                        <div id="boxQ2" class="w-16 h-20 sm:w-20 sm:h-24 bg-pink-950 border-4 border-pink-500 rounded-2xl shadow-xl flex items-center justify-center font-display text-3xl sm:text-4xl font-extrabold text-pink-400 transform transition-all duration-500 animate-pulse">
+                            🔒
+                        </div>
+                        <div id="boxQ3" class="w-16 h-20 sm:w-20 sm:h-24 bg-pink-950 border-4 border-pink-500 rounded-2xl shadow-xl flex items-center justify-center font-display text-3xl sm:text-4xl font-extrabold text-pink-400 transform transition-all duration-500 animate-pulse">
+                            🔒
+                        </div>
+                    </div>
+
+                    <div id="ilyMeaningBanner" class="hidden opacity-0 flex-col items-center my-4 transform transition-all duration-700 scale-90">
+                        <div class="text-4xl sm:text-5xl animate-bounce mb-2">🤍❤️</div>
+                        <h3 class="font-cursive text-5xl sm:text-6xl text-pink-400 font-bold drop-shadow-md">
+                            ILY
+                        </h3>
+                        <p class="font-display font-bold text-lg sm:text-xl text-pink-200 mt-1">
+                            = I loveeee youuuu! hihihi
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Birthday Notes Slide Modal (7 Pop Up Notes) -->
+        <div id="bdayNotesModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex justify-center items-center z-50 hidden opacity-0 transition-all duration-500">
+            <div id="bdayNoteCard" class="bg-slate-950 border-4 border-pink-500 p-8 sm:p-10 rounded-3xl shadow-2xl text-center max-w-md w-11/12 transform scale-95 transition-transform duration-300 relative overflow-hidden select-none cursor-grab">
+                
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-pink-950 text-pink-300 rounded-full text-[11px] font-bold uppercase tracking-wider mb-4 animate-bounce-gentle">
+                    <i class="fa-solid fa-arrows-left-right"></i> <span id="noteBadgeCounter">Note 1 of 7</span>
+                </div>
+
+                <div class="text-5xl mb-3" id="noteEmoji">❤️</div>
+                
+                <h3 id="noteMessage" class="font-display text-2xl sm:text-3xl font-extrabold text-pink-400 mb-6 leading-tight min-h-[90px] flex items-center justify-center tracking-wide">
+                    hepii birthday teacherrrr!
+                </h3>
+
+                <!-- Progress indicator dots (7 dots) -->
+                <div class="flex justify-center items-center gap-2 mb-4" id="dotsContainer">
+                    <!-- Dynamic Dots generated by JS -->
+                </div>
+
+                <div class="w-full bg-pink-950 h-2 rounded-full overflow-hidden mb-4">
+                    <div id="noteProgressBar" class="bg-gradient-to-r from-pink-500 to-rose-600 h-full w-[14.28%] transition-all duration-300"></div>
+                </div>
+
+                <p class="text-[11px] font-bold text-pink-400/80 animate-pulse uppercase tracking-wider flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-hand-pointer"></i> Drag or Swipe left/right to navigate
+                </p>
+            </div>
+        </div>
+
+        <section id="stageMailArrival" class="hidden opacity-0 flex flex-col items-center justify-center text-center transition-all duration-700 w-full my-auto min-h-[60vh] relative">
+            
+            <div id="mailEnvelopeBtn" class="cursor-pointer group flex flex-col items-center justify-center transform hover:scale-110 active:scale-95 transition-all duration-300">
+                <div class="w-36 h-28 sm:w-44 sm:h-34 bg-gradient-to-tr from-pink-600 via-rose-500 to-pink-700 rounded-2xl shadow-2xl border-4 border-pink-200 flex flex-col items-center justify-center relative overflow-hidden animate-bounce-gentle group-hover:shadow-pink-500/80">
+                    <div class="absolute inset-0 bg-white/10 transform -skew-y-12"></div>
+                    <i class="fa-solid fa-envelope-open-text text-6xl sm:text-7xl text-white drop-shadow-md relative z-10 transition-transform group-hover:scale-110"></i>
+                    <div class="absolute -top-1 -right-1 w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center text-xs font-bold animate-ping">
+                        1
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-slate-950/90 backdrop-blur-md px-6 py-3 rounded-full border-2 border-pink-500 shadow-lg inline-flex items-center gap-2 group-hover:border-pink-400">
+                    <span class="text-xl animate-pulse">💌</span>
+                    <span class="font-display font-extrabold text-pink-300 text-sm sm:text-base">
+                        click on this mail to read your letter! (bismillahhh)
+                    </span>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="stage4" class="hidden opacity-0 flex flex-col items-center justify-center text-center transition-all duration-1000 w-full min-h-[70vh] my-auto">
+            
+            <div id="letterCardContainer" class="letter-card w-full max-w-2xl rounded-3xl p-6 sm:p-10 border-2 border-pink-500/50 relative overflow-hidden transform transition-all duration-700 my-auto shadow-2xl">
+                
+                <div class="flex justify-between items-start mb-6 border-b-2 border-dashed border-pink-800 pb-4">
+                    <div class="text-left">
+                        <span class="inline-block px-3 py-1 bg-pink-950 text-pink-300 rounded-full text-xs font-bold uppercase tracking-wider mb-1">
+                            🌸 A Letter to the mostt wonderrrfuuuul teacherrr
+                        </span>
+                        <h2 class="font-playfulCursive text-3xl sm:text-4xl text-pink-400 font-bold">21/10/2026</h2>
+                    </div>
+                    
+                    <div class="w-14 h-16 bg-pink-950 border-2 border-dashed border-pink-600 rounded-md flex flex-col items-center justify-center p-1 shadow-sm transform rotate-3 flex-shrink-0">
+                        <i class="fa-solid fa-heart text-pink-500 text-xl"></i>
+                        <span class="text-[9px] font-bold text-pink-300 mt-1">67</span>
+                    </div>
+                </div>
+
+                <div class="text-left font-sans text-pink-100 leading-relaxed text-base sm:text-lg max-h-[60vh] md:max-h-none overflow-y-auto pr-2 custom-scrollbar" id="letterContent">
+                    <p class="font-playfulCursive text-2xl sm:text-3xl text-pink-400 font-semibold mb-4">
+                        Dear Teacher,
+                    </p>
+                    <p class="mb-4 text-pink-100/90 font-medium">
+                        Happyyy birthdayyy! today is a special day for youu so mestilahh hadiah kenaaa special2 jugak kannn 🫣
+                        and kenaa laa jugak celebrate birthday orang specialll harinii hihii.
+                        
+                    </p>
+                    <p class="mb-4 text-pink-100/90 font-medium">
+                        I'm sorry if this is not enough, I tried my best thinking what surprise/presents could be the best for you, 😓. I have planned about these stuffs since bulan 7 lagii. plan awal2 so tak kalut nak study mehhh.
+                        though I am busy, fikiran untuk plan surprise ini never disappeared from my mind, HAHA. But heyy, it worked out didn't it? Alhamdulillah. banyak effort ni i did just for teacher.. hmm what am I doing with my life HAHA. maybe because I adore someone so much tu yang sampai jadi gituwww 🙊.. I'm like that so don't be weirded out plis HAHA. I hope the world will always be kind to you 🥹. you're too preciouss untuk disakitii HAHA 🤗. when the expectations begin to feel impossible, remember that because of YOU, today someonee smiled, learneddd somethinggg new, becameee more confident and felt loooved. Don't ever give up teacherrr! ☹️ you don't need to alwaysss be a perfect teacherr, you are already perfect as it isss. hey who knowsss, you might be someone's favourite school memory 🤷‍♀️🤷‍♀️ hihi. (me probably HAHAHA). your hard work and love for teaching have made a BIG difference in my life, and I'll never forget everything you've once taught me. I realised that maybe after all, the nervous, scared, anxious and guilty feeling was the reason I'm not confident in myself. I still am not confident though HAHAHA, baru 35%. mau keep low profile ykyk 🫣. kadang2 redha jerr apee yang jadi kat kitaaa, biarlahh orang judge. there's a lot of things I want to say, tapi biarkan perenggan ke-3 explain HAHA. tapi tu laa, I don't want people to see me differently after I let out my problems.. gapapa lah.
+                    </p>
+                    <p class="mb-4 text-pink-100/90 font-medium">
+                        there are actually more presents waiting for you, I just don't have the budget yett HAHAHAHA. you wait2 aaa 🤗🤗. Planninggg nak beli mofusand blindbox tuu untuk teacherrr, but there's like a lot of otherr things that I want to buy for you sampai tidak boleh nak decide 😬.. issokayy, sementara ade masa lagi niii, I'm saving money to buy more present for you HAHA.
+macam tengah spoil teacher pulak.. sorriii hihi. but yeahh, don't feel guiltyy tauuu, sayaa memanggg ikhlas bagi untuk teacherr. I may made myself sad because my money gone oledy, but lebih bagus kita melihat orang happy kann. if you're happy, I'm happyy. 🤗❤️. at leasttt, my money didn't go to waste buying unnecessary stuffs..
+                    </p>
+                    <p class="mb-4 text-pink-100/90 font-medium">
+                        I'm sorry for all the trouble I may have caused 😓, I'm sorryy if I'm ever annoyinggg, I promise I will keep doing it, HAHA just kidding.. soryy tauuu, minta halalkan segala kesalahan sayaa, tenk youu. hihii.
+                        thank you for everything! you're the reason I'm slowly healing from all of my problems, without youuuu maybeee i would've done something badd HAHAHA. not that bad laa, macam jauhkan diri jerr and probably something elseeeeeeeee hihi. thankk youuu2, sayanggg teacherr sangat2 🫠. thank you also for distracting me from the things that's been bothering me since last year.. yess last year HAHAHA, deep depression time tu maybee??.. every  month I cry HAHAH ☹️. too much going on. I'm dealing with sooo many things last year.. friendship situation, family problems, self problems and most importantly, academic pressure. but Alhamdulillah, walaupun tahun ni tak berapa okay lagi, i'm slowly healing, still had some days i cried though. whenever I am sad or crying, I would go through our chats, tapi dia buat lagi teruk HAHA because knowing that I won't be able to have these kinds of conversation, putting up so much effort for someone's birthday and let out my problems to you anymore. whyy? sebab in the future, we'll probably be going on our own ways and who knows we might lose contact.. and I'll probably lose the only teacher that I can be myself with. thoughh we still have time to meet each other, but the time won't last long. I lowkey see you as my sister, even though I have my own biological sisters but dua2 dah takde dekat rumahh. seorang di asrama, one more di UITM, baru hantarr bulan lepass. so i'm a bit lonely right now. Imma be honestt, sebelum I asked for your help pada 27/8/26, for the past 2 months, I was struggling so much to the point I was so weak and tiba2 ada urge untuk keel myself..but I chose not too because it's a sin rightttt? it became so bad that I can't distract myself. i have so many people to run to but yet i chose to run to you because i trust you so so so much tapi I feel really guilty asking for people's help, watt if they are going through a hard time alsooo? that's why I chose to keep my emotion. I'm literally crying while writing this letter HAHAHA. I know i'm not supposed to be talking about myself right now but I just wanna show how appreciative I am towards your kindness. you helped me go through things and motivated me to keep going even when life is hard. it must be a littlee embarassing to see you tommorow sebab terlalu banyak let out sudah ni HAHAHA. I'm so thankful to meet a teacher like you. you brighten my days so much that I haven't got the time to feel anything. thank youu for your effort to teach ussss, tapi tu laaa, mesti tahun depann form 4 teacher dahh tak ajar kelas depan kannn ☹️. a bit sad about that. tidak tahuu kenapaa but you're the first teacherr yang I feel comfortable with. tak kataaa dengan cikgu lain uncomfortableee, tapi vibe teacher lainnn daripada lainn yang membuatkan sayaa tertarik HAHAHAHAHA. never in my life saya chat dengan cikgu banyak2 ginii even though I'm not supposed to. so you're lucky to be my first one HAHAHA. anyway, tidak mau panjangkan cerita tentang diri sendiri HAHAHA. thank you once again teacherrr, semoga teacher sentiasa dimurahkan rezeki dan dipermudahkan segala urusan, aaminn. may you have the birthday you deservedd.
+                       don't nangis2 ehhh teacherrr, but there's nothing to cry pun dalam letter ni 😓. actually, I AM the one that will cry HAHA. okay laaa itu sajaa daripada sayaaa,  sekiannn. HAHAHA. bubyeee, thank youuu. one last thing, you will always be a beautiful, elegant, wonderful, pretty, stunning, gorgeous, amazing, fantastic, coca colastic, kind, smart, clever, cute, generous, joyful, thoughtful, lovely AND a sigma teacherrr. haaa HAHA. lopp youu teacherr HAHAHA.
+                    </p>
+
+
+                    <div class="mt-8 pt-4 border-t border-pink-900 flex flex-col sm:flex-row justify-between sm:items-end gap-4">
+                        <div>
+                            <p class="text-sm text-pink-300/60 italic">with the waaaaarmestttt wishes,</p>
+                            <p id="senderNameDisplay" class="font-cursive text-3xl text-pink-400 font-bold">Areanna Grenade</p>
+                        </div>
+                    </div>
+                </div>
+
+        </section>
+
+    </main>
+
+    <!-- Flying Paper Plane -->
+    <div id="paperPlane" class="fixed top-1/2 left-0 -translate-y-1/2 pointer-events-none z-50 opacity-0">
+        <div class="relative flex items-center gap-2">
+            <div class="w-48 h-1 border-b-2 border-dashed border-pink-500 opacity-80"></div>
+            <div class="text-pink-400 text-6xl transform rotate-12 filter drop-shadow-[0_10px_10px_rgba(236,72,153,0.5)]">
+                <i class="fa-solid fa-paper-plane"></i>
+            </div>
+            <span class="text-pink-300 text-3xl -ml-3 animate-ping">🎉</span>
+        </div>
+    </div>
+
+    <script>
+        let activeCandles = [true, true, true];
+        let blownCandleCount = 0;
+
+        // YouTube Player & Songs Setup
+        const MAIN_SONG_ID = 'Fhi-1fxATlo';
+        let ytPlayer = null;
+        let isMuted = false;
+        let currentVolume = 80;
+        let isPlaying = true;
+
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('ytPlayer', {
+                height: '0',
+                width: '0',
+                videoId: MAIN_SONG_ID,
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': MAIN_SONG_ID,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'iv_load_policy': 3
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.setVolume(currentVolume);
+            event.target.playVideo();
+        }
+
+        // Web Audio Context setup
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new AudioCtx();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        window.addEventListener('click', () => { getAudioContext(); });
+        window.addEventListener('touchstart', () => { getAudioContext(); });
+
+        function playAppleNotificationSound() {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+
+                const triToneFreqs = [1318.51, 1661.22, 1975.53];
+                triToneFreqs.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.11);
+
+                    gain.gain.setValueAtTime(0, now + idx * 0.11);
+                    gain.gain.linearRampToValueAtTime(0.35, now + idx * 0.11 + 0.01);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.11 + 0.38);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(now + idx * 0.11);
+                    osc.stop(now + idx * 0.11 + 0.4);
+                });
+            } catch (e) {
+                console.log("Audio play error:", e);
+            }
+        }
+
+        function playILoveYouSound() {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+
+                const notes = [
+                    { f: 523.25, t: 0, d: 0.3 },     // C5
+                    { f: 659.25, t: 0.12, d: 0.3 },  // E5
+                    { f: 783.99, t: 0.24, d: 0.35 }, // G5
+                    { f: 1046.50, t: 0.38, d: 0.6 }, // C6
+                    { f: 1318.51, t: 0.52, d: 0.8 }  // E6
+                ];
+
+                notes.forEach(n => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(n.f, now + n.t);
+
+                    gain.gain.setValueAtTime(0, now + n.t);
+                    gain.gain.linearRampToValueAtTime(0.28, now + n.t + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + n.t + n.d);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(now + n.t);
+                    osc.stop(now + n.t + n.d);
+                });
+
+                const padOsc = ctx.createOscillator();
+                const padGain = ctx.createGain();
+                padOsc.type = 'sine';
+                padOsc.frequency.setValueAtTime(261.63, now);
+                padOsc.frequency.exponentialRampToValueAtTime(523.25, now + 0.8);
+                padGain.gain.setValueAtTime(0.01, now);
+                padGain.gain.linearRampToValueAtTime(0.18, now + 0.4);
+                padGain.gain.linearRampToValueAtTime(0.001, now + 1.2);
+                padOsc.connect(padGain);
+                padGain.connect(ctx.destination);
+                padOsc.start(now);
+                padOsc.stop(now + 1.2);
+
+            } catch (e) {
+                console.log("Audio play error:", e);
+            }
+        }
+
+        function playSound(type) {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+
+                if (type === 'shock') {
+                    const osc1 = ctx.createOscillator();
+                    const osc2 = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc1.type = 'sawtooth';
+                    osc2.type = 'sine';
+
+                    osc1.frequency.setValueAtTime(220, now);
+                    osc1.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+                    osc1.frequency.exponentialRampToValueAtTime(350, now + 0.4);
+
+                    osc2.frequency.setValueAtTime(330, now);
+                    osc2.frequency.exponentialRampToValueAtTime(1200, now + 0.12);
+                    osc2.frequency.exponentialRampToValueAtTime(440, now + 0.4);
+
+                    gain.gain.setValueAtTime(0.01, now);
+                    gain.gain.linearRampToValueAtTime(0.35, now + 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+                    osc1.connect(gain);
+                    osc2.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc1.start(now);
+                    osc2.start(now);
+                    osc1.stop(now + 0.45);
+                    osc2.stop(now + 0.45);
+                } else if (type === 'jump') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(160, now);
+                    osc.frequency.exponentialRampToValueAtTime(640, now + 0.15);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                } else if (type === 'hit') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(350, now);
+                    osc.frequency.exponentialRampToValueAtTime(35, now + 0.38);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.38);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.38);
+                } else if (type === 'blow') {
+                    const freqs = [587.33, 739.99, 880.00, 1174.66];
+                    freqs.forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+                        gain.gain.setValueAtTime(0.15, now + idx * 0.05);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + idx * 0.05);
+                        osc.stop(now + idx * 0.05 + 0.35);
+                    });
+                } else if (type === 'click' || type === 'slide') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(700, now);
+                    osc.frequency.exponentialRampToValueAtTime(350, now + 0.08);
+                    gain.gain.setValueAtTime(0.16, now);
+                    gain.gain.linearRampToValueAtTime(0.001, now + 0.08);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'win') {
+                    const notes = [293.66, 369.99, 440.00, 587.33, 739.99, 880.00];
+                    notes.forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.07);
+                        gain.gain.setValueAtTime(0.2, now + i * 0.07);
+                        gain.gain.linearRampToValueAtTime(0.001, now + i * 0.07 + 0.28);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + i * 0.07);
+                        osc.stop(now + i * 0.07 + 0.28);
+                    });
+                } else if (type === 'door') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+                        gain.gain.setValueAtTime(0.18, now + i * 0.08);
+                        gain.gain.linearRampToValueAtTime(0.001, now + i * 0.08 + 0.32);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + i * 0.08);
+                        osc.stop(now + i * 0.08 + 0.32);
+                    });
+                } else if (type === 'quiz_select') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.09);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.linearRampToValueAtTime(0.001, now + 0.09);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.09);
+                } else if (type === 'plane_fly') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(320, now);
+                    osc.frequency.exponentialRampToValueAtTime(1300, now + 1.2);
+                    osc.frequency.exponentialRampToValueAtTime(380, now + 2.4);
+                    gain.gain.setValueAtTime(0.01, now);
+                    gain.gain.linearRampToValueAtTime(0.22, now + 1.2);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 2.4);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 2.4);
+                } else if (type === 'explode') {
+                    const bufferSize = ctx.sampleRate * 0.6;
+                    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = Math.random() * 2 - 1;
+                    }
+
+                    const noise = ctx.createBufferSource();
+                    noise.buffer = buffer;
+
+                    const filter = ctx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(850, now);
+                    filter.frequency.exponentialRampToValueAtTime(35, now + 0.6);
+
+                    const noiseGain = ctx.createGain();
+                    noiseGain.gain.setValueAtTime(0.55, now);
+                    noiseGain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+
+                    noise.connect(filter);
+                    filter.connect(noiseGain);
+                    noiseGain.connect(ctx.destination);
+
+                    noise.start(now);
+                    noise.stop(now + 0.6);
+
+                    const osc = ctx.createOscillator();
+                    const oscGain = ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(200, now);
+                    osc.frequency.exponentialRampToValueAtTime(25, now + 0.5);
+                    oscGain.gain.setValueAtTime(0.4, now);
+                    oscGain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.connect(oscGain);
+                    oscGain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                }
+            } catch (e) {
+                console.log("Audio play error:", e);
+            }
+        }
+
+        const stage1 = document.getElementById('stage1');
+        const stageDino = document.getElementById('stageDino');
+        const dinoRestartModal = document.getElementById('dinoRestartModal');
+        const dinoRestartYesBtn = document.getElementById('dinoRestartYesBtn');
+        const dinoRestartNoBtn = document.getElementById('dinoRestartNoBtn');
+        const goInModal = document.getElementById('goInModal');
+        const goInCard = document.getElementById('goInCard');
+        const goInTitle = document.getElementById('goInTitle');
+        const goInSubtitle = document.getElementById('goInSubtitle');
+        const goInYesBtn = document.getElementById('goInYesBtn');
+        const goInNoBtn = document.getElementById('goInNoBtn');
+        const stageHouseInside = document.getElementById('stageHouseInside');
+        const openMainCakeBtn = document.getElementById('openMainCakeBtn');
+        const stage2 = document.getElementById('stage2');
+        const stageQuiz = document.getElementById('stageQuiz');
+        const bdayNotesModal = document.getElementById('bdayNotesModal');
+        const stageMailArrival = document.getElementById('stageMailArrival');
+        const stage4 = document.getElementById('stage4');
+
+        const continueBtn = document.getElementById('continueBtn');
+
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmStep1 = document.getElementById('confirmStep1');
+        const confirmStep2 = document.getElementById('confirmStep2');
+        const sureYesBtn1 = document.getElementById('sureYesBtn1');
+        const sureYesBtn2 = document.getElementById('sureYesBtn2');
+        const superSureYesBtn2 = document.getElementById('superSureYesBtn2');
+        const paperPlane = document.getElementById('paperPlane');
+
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeVal = document.getElementById('volumeVal');
+        const muteBtn = document.getElementById('muteBtn');
+        const muteIcon = document.getElementById('muteIcon');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playPauseIcon = document.getElementById('playPauseIcon');
+
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', (e) => {
+                currentVolume = e.target.value;
+                if (volumeVal) volumeVal.innerText = `${currentVolume}%`;
+                if (ytPlayer && ytPlayer.setVolume) {
+                    ytPlayer.setVolume(currentVolume);
+                    if (currentVolume == 0) {
+                        if (muteIcon) muteIcon.className = "fa-solid fa-volume-xmark";
+                    } else {
+                        if (muteIcon) muteIcon.className = "fa-solid fa-volume-high";
+                    }
+                }
+            });
+        }
+
+        if (muteBtn) {
+            muteBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (ytPlayer) {
+                    if (isMuted) {
+                        ytPlayer.mute();
+                        muteIcon.className = "fa-solid fa-volume-xmark";
+                    } else {
+                        ytPlayer.unMute();
+                        muteIcon.className = "fa-solid fa-volume-high";
+                    }
+                }
+            });
+        }
+
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', () => {
+                if (!ytPlayer) return;
+                const state = ytPlayer.getPlayerState();
+                if (state === YT.PlayerState.PLAYING) {
+                    ytPlayer.pauseVideo();
+                    playPauseIcon.className = "fa-solid fa-play";
+                } else {
+                    ytPlayer.playVideo();
+                    playPauseIcon.className = "fa-solid fa-compact-disc animate-spin";
+                }
+            });
+        }
+
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 30;
+                this.size = Math.random() * 14 + 10;
+                this.speedY = Math.random() * 1.6 + 0.6;
+                this.speedX = (Math.random() - 0.5) * 0.9;
+                this.opacity = Math.random() * 0.65 + 0.35;
+                this.type = Math.random() > 0.45 ? 'balloon' : 'heart';
+                const hues = [330, 340, 350, 320, 310];
+                this.color = `hsl(${hues[Math.floor(Math.random() * hues.length)]}, 90%, 65%)`;
+                this.stringColor = `rgba(244, 114, 182, 0.4)`;
+                this.rotation = (Math.random() - 0.5) * 0.2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.01;
+                this.sway = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.sway += 0.03;
+                this.x += this.speedX + Math.sin(this.sway) * 0.4;
+                this.rotation += this.rotSpeed;
+                if (this.y < -50) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                if (this.type === 'heart') {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    let s = this.size / 2;
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-s, -s, -s * 1.5, s / 2, 0, s * 1.5);
+                    ctx.bezierCurveTo(s * 1.5, s / 2, s, -s, 0, 0);
+                    ctx.fill();
+                } else if (this.type === 'balloon') {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    let r = this.size;
+                    ctx.ellipse(0, 0, r * 0.8, r, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+                    ctx.beginPath();
+                    ctx.ellipse(-r * 0.3, -r * 0.4, r * 0.2, r * 0.35, -Math.PI / 6, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.moveTo(-3, r); ctx.lineTo(3, r); ctx.lineTo(0, r + 4);
+                    ctx.closePath(); ctx.fill();
+                    ctx.strokeStyle = this.stringColor;
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath(); ctx.moveTo(0, r + 4);
+                    ctx.quadraticCurveTo(5, r + 15, -2, r + 28); ctx.stroke();
+                }
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 30; i++) particles.push(new Particle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        const dinoCanvas = document.getElementById('dinoCanvas');
+        const dinoCtx = dinoCanvas.getContext('2d');
+        const dinoTimerEl = document.getElementById('dinoTimer');
+        const motivationToast = document.getElementById('motivationToast');
+        const motivationText = document.getElementById('motivationText');
+        
+        let dinoTimerInterval = null;
+        let motivationInterval = null;
+        let dinoFireworksInterval = null;
+        let timeLeft = 30;
+        let isGameRunning = false;
+        let gameFinished = false;
+
+        const motivationalQuotes = [
+            "hepiii birthdayy!",
+            "thank you for inspiring us!",
+            "merci, professeur",
+            "stay sigma teacherrr",
+            "this thing ulang benda yang sama sometimes, so ignore it 🫠",
+            "nak cakap ape lagi eh",
+            "six seven",
+            "du bist gut genug",
+            "never give up teachingg",
+            "ehem cantik laa teacherr harini"
+        ];
+
+        let lastMotivationIndex = -1;
+
+        function showMotivationPopup() {
+            if (!motivationToast || !motivationText || !isGameRunning || gameFinished) return;
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+            } while (randomIndex === lastMotivationIndex && motivationalQuotes.length > 1);
+
+            lastMotivationIndex = randomIndex;
+            motivationText.innerHTML = motivationalQuotes[randomIndex];
+            motivationToast.classList.remove('opacity-0', '-translate-y-2');
+            motivationToast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                if (motivationToast) {
+                    motivationToast.classList.remove('opacity-100', 'translate-y-0');
+                    motivationToast.classList.add('opacity-0', '-translate-y-2');
+                }
+            }, 1800);
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti !== 'function') return;
+            confetti({ particleCount: 80, spread: 100, origin: { y: 0.6 } });
+        }
+
+        function triggerFireworks() {
+            if (typeof confetti !== 'function' || !isGameRunning || gameFinished) return;
+            const randomX = Math.random() * 0.7 + 0.15;
+            const randomY = Math.random() * 0.35 + 0.12;
+            const fireworkPalette = [
+                ['#ec4899', '#f472b6', '#facc15', '#ffffff'],
+                ['#f43f5e', '#fb923c', '#facc15', '#fbcfe8'],
+                ['#d946ef', '#ec4899', '#4ade80', '#fef08a']
+            ];
+            confetti({
+                particleCount: 38, angle: 360, spread: 360, startVelocity: 24,
+                decay: 0.91, gravity: 0.7, ticks: 75,
+                origin: { x: randomX, y: randomY },
+                colors: fireworkPalette[Math.floor(Math.random() * fireworkPalette.length)],
+                scalar: 0.85
+            });
+        }
+
+        const GROUND_Y = 192;
+        let dino = {
+            x: 70, y: GROUND_Y, width: 38, height: 46, dy: 0, gravity: 0.85,
+            jumpForce: -13.5, isGrounded: true, legFrame: 0, isWalkingToHouse: false, isInside: false
+        };
+
+        let cacti = [];
+        let clouds = [
+            { x: 200, y: 35, speed: 0.5 },
+            { x: 550, y: 55, speed: 0.3 },
+            { x: 820, y: 25, speed: 0.4 }
+        ];
+        let groundX = 0;
+        let gameSpeed = 6.5;
+        let houseX = 1000;
+
+        function drawPixelDino(x, y, frame) {
+            const s = 1.2;
+            dinoCtx.save();
+            dinoCtx.translate(x, y);
+
+            dinoCtx.fillStyle = '#f472b6';
+            dinoCtx.fillRect(18*s, 0*s, 14*s, 12*s);
+            dinoCtx.fillRect(22*s, 3*s, 3*s, 3*s);
+            dinoCtx.fillStyle = '#FFFFFF';
+            dinoCtx.fillRect(23*s, 4*s, 1.2*s, 1.2*s);
+            dinoCtx.fillStyle = '#f472b6';
+            dinoCtx.fillRect(26*s, 8*s, 6*s, 2*s);
+            dinoCtx.fillRect(8*s, 12*s, 18*s, 16*s);
+            dinoCtx.fillRect(0*s, 14*s, 8*s, 6*s);
+            dinoCtx.fillRect(2*s, 20*s, 6*s, 4*s);
+            dinoCtx.fillRect(22*s, 16*s, 5*s, 2*s);
+
+            if (!dino.isGrounded) {
+                dinoCtx.fillRect(10*s, 28*s, 5*s, 10*s);
+                dinoCtx.fillRect(18*s, 28*s, 5*s, 6*s);
+            } else if (frame % 8 < 4) {
+                dinoCtx.fillRect(10*s, 28*s, 5*s, 10*s);
+                dinoCtx.fillRect(18*s, 28*s, 5*s, 5*s);
+            } else {
+                dinoCtx.fillRect(10*s, 28*s, 5*s, 5*s);
+                dinoCtx.fillRect(18*s, 28*s, 5*s, 10*s);
+            }
+            dinoCtx.restore();
+        }
+
+        function drawPixelCactus(c) {
+            dinoCtx.fillStyle = '#db2777';
+            dinoCtx.fillRect(c.x + 8, c.y, 10, c.height);
+            dinoCtx.fillRect(c.x, c.y + 12, 8, 6);
+            dinoCtx.fillRect(c.x, c.y + 6, 6, 10);
+            dinoCtx.fillRect(c.x + 18, c.y + 16, 8, 6);
+            dinoCtx.fillRect(c.x + 20, c.y + 10, 6, 10);
+        }
+
+        function drawPixelCloud(cloud) {
+            dinoCtx.strokeStyle = '#831843';
+            dinoCtx.lineWidth = 2;
+            dinoCtx.fillStyle = '#28081a';
+            dinoCtx.beginPath();
+            dinoCtx.rect(cloud.x, cloud.y, 50, 12);
+            dinoCtx.rect(cloud.x + 10, cloud.y - 6, 30, 12);
+            dinoCtx.fill();
+            dinoCtx.stroke();
+        }
+
+        function drawPixelHouse(hx) {
+            dinoCtx.fillStyle = '#be185d';
+            dinoCtx.beginPath();
+            dinoCtx.moveTo(hx, 150);
+            dinoCtx.lineTo(hx + 45, 105);
+            dinoCtx.lineTo(hx + 90, 150);
+            dinoCtx.fill();
+            dinoCtx.fillRect(hx + 8, 150, 74, 88);
+            dinoCtx.fillStyle = '#0d0208';
+            dinoCtx.fillRect(hx + 32, 185, 26, 53);
+            dinoCtx.fillStyle = '#f43f5e';
+            dinoCtx.fillRect(hx + 36, 208, 4, 4);
+        }
+
+        function drawGround() {
+            dinoCtx.strokeStyle = '#ec4899';
+            dinoCtx.lineWidth = 2.5;
+            dinoCtx.beginPath();
+            dinoCtx.moveTo(0, 238);
+            dinoCtx.lineTo(950, 238);
+            dinoCtx.stroke();
+
+            dinoCtx.fillStyle = '#db2777';
+            for (let i = 0; i < 950; i += 45) {
+                let spotX = (i - groundX) % 950;
+                if (spotX < 0) spotX += 950;
+                dinoCtx.fillRect(spotX, 242, 5, 2.5);
+            }
+        }
+
+        function jumpDino() {
+            if (dino.isGrounded && isGameRunning && !gameFinished) {
+                dino.dy = dino.jumpForce;
+                dino.isGrounded = false;
+                playSound('jump');
+            }
+        }
+
+        function spawnCactus() {
+            if (timeLeft > 2 && Math.random() < 0.038 && (cacti.length === 0 || cacti[cacti.length - 1].x < 620)) {
+                cacti.push({ x: 950, y: 194, width: 26, height: 44 });
+            }
+        }
+
+        function checkCollisions() {
+            for (let i = 0; i < cacti.length; i++) {
+                let c = cacti[i];
+                if (
+                    dino.x + 6 < c.x + c.width &&
+                    dino.x + dino.width - 6 > c.x &&
+                    dino.y + 6 < c.y + c.height &&
+                    dino.y + dino.height > c.y
+                ) {
+                    playSound('hit');
+                    handleDinoCrash();
+                    return;
+                }
+            }
+        }
+
+        function stopGameTimers() {
+            if (dinoTimerInterval) clearInterval(dinoTimerInterval);
+            if (motivationInterval) clearInterval(motivationInterval);
+            if (dinoFireworksInterval) clearInterval(dinoFireworksInterval);
+        }
+
+        function handleDinoCrash() {
+            isGameRunning = false;
+            stopGameTimers();
+
+            if (dinoRestartModal) {
+                dinoRestartModal.classList.remove('hidden');
+                setTimeout(() => dinoRestartModal.classList.remove('opacity-0'), 50);
+            }
+        }
+
+        function resetAndRestartGame() {
+            if (dinoRestartModal) {
+                dinoRestartModal.classList.add('opacity-0');
+                setTimeout(() => dinoRestartModal.classList.add('hidden'), 300);
+            }
+
+            cacti = [];
+            timeLeft = 30;
+            if (dinoTimerEl) dinoTimerEl.innerText = timeLeft;
+            dino.y = GROUND_Y;
+            dino.x = 70;
+            dino.dy = 0;
+            dino.isGrounded = true;
+            
+            startDinoGame();
+        }
+
+        if (dinoRestartYesBtn) dinoRestartYesBtn.addEventListener('click', resetAndRestartGame);
+
+        if (dinoRestartNoBtn) {
+            dinoRestartNoBtn.addEventListener('click', () => {
+                if (dinoRestartModal) {
+                    dinoRestartModal.classList.add('opacity-0');
+                    setTimeout(() => dinoRestartModal.classList.add('hidden'), 300);
+                }
+                if (stageDino) stageDino.classList.add('opacity-0');
+                setTimeout(() => {
+                    if (stageDino) stageDino.classList.add('hidden');
+                    if (stage1) {
+                        stage1.classList.remove('hidden');
+                        setTimeout(() => stage1.classList.remove('opacity-0', '-translate-y-6'), 50);
+                    }
+                }, 500);
+            });
+        }
+
+        function updateDinoGame() {
+            if (!isGameRunning && !gameFinished) return;
+
+            dinoCtx.fillStyle = '#0d0208';
+            dinoCtx.fillRect(0, 0, 950, 260);
+
+            if (!gameFinished) {
+                groundX = (groundX + gameSpeed) % 950;
+            }
+            drawGround();
+
+            clouds.forEach(c => {
+                if (!gameFinished) c.x -= c.speed;
+                if (c.x < -60) c.x = 1000;
+                drawPixelCloud(c);
+            });
+
+            if (!gameFinished) {
+                dino.dy += dino.gravity;
+                dino.y += dino.dy;
+                if (dino.y >= GROUND_Y) {
+                    dino.y = GROUND_Y;
+                    dino.dy = 0;
+                    dino.isGrounded = true;
+                }
+                dino.legFrame++;
+
+                spawnCactus();
+                cacti.forEach(c => c.x -= gameSpeed);
+                cacti = cacti.filter(c => c.x > -40);
+                cacti.forEach(c => drawPixelCactus(c));
+
+                checkCollisions();
+            } else {
+                if (dino.y < GROUND_Y) {
+                    dino.y += 4;
+                    if (dino.y > GROUND_Y) dino.y = GROUND_Y;
+                }
+                dino.isGrounded = true;
+
+                drawPixelHouse(houseX);
+                if (houseX > 720) {
+                    houseX -= 3.5;
+                } else if (!dino.isWalkingToHouse) {
+                    if (dino.x < 700) {
+                        dino.x += 3.5;
+                        dino.legFrame++;
+                    } else {
+                        dino.isWalkingToHouse = true;
+                        stopGameTimers();
+                        setTimeout(() => showGoInModal(), 300);
+                    }
+                }
+            }
+
+            if (!dino.isInside) {
+                drawPixelDino(dino.x, dino.y, dino.legFrame);
+            }
+
+            if (isGameRunning) {
+                requestAnimationFrame(updateDinoGame);
+            }
+        }
+
+        function startDinoGame() {
+            isGameRunning = true;
+            gameFinished = false;
+            timeLeft = 30;
+            if (dinoTimerEl) dinoTimerEl.innerText = timeLeft;
+
+            stopGameTimers();
+
+            dinoTimerInterval = setInterval(() => {
+                if (!isGameRunning) return;
+                timeLeft--;
+                if (dinoTimerEl) dinoTimerEl.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    stopGameTimers();
+                    gameFinished = true;
+                }
+            }, 1000);
+
+            motivationInterval = setInterval(() => {
+                showMotivationPopup();
+            }, 3200);
+
+            dinoFireworksInterval = setInterval(() => {
+                triggerFireworks();
+            }, 2200);
+
+            requestAnimationFrame(updateDinoGame);
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                jumpDino();
+            }
+        });
+
+        const gameContainer = document.getElementById('gameCanvasContainer');
+        if (gameContainer) {
+            gameContainer.addEventListener('click', jumpDino);
+            gameContainer.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                jumpDino();
+            }, { passive: false });
+        }
+
+        if (continueBtn) {
+            continueBtn.addEventListener('click', () => {
+                playSound('click');
+                stage1.classList.add('opacity-0', '-translate-y-6');
+                setTimeout(() => {
+                    stage1.classList.add('hidden');
+                    stageDino.classList.remove('hidden');
+                    setTimeout(() => {
+                        stageDino.classList.remove('opacity-0');
+                        startDinoGame();
+                    }, 50);
+                }, 600);
+            });
+        }
+
+        function showGoInModal() {
+            if (!goInModal || !goInCard) return;
+            playSound('win');
+            goInModal.classList.remove('hidden');
+            setTimeout(() => {
+                goInModal.classList.remove('opacity-0');
+                goInCard.classList.remove('scale-95');
+                goInCard.classList.add('scale-100');
+            }, 50);
+        }
+
+        if (goInNoBtn) {
+            goInNoBtn.addEventListener('click', () => {
+                playSound('click');
+                if (goInTitle) goInTitle.innerText = "are you sure? masuk laaa";
+                if (goInSubtitle) goInSubtitle.innerText = "masuk plisssh, best trust2";
+                if (goInYesBtn) goInYesBtn.classList.add('hidden');
+                goInNoBtn.innerText = "fineee";
+                goInNoBtn.className = "px-6 py-2.5 rounded-full bg-pink-600 hover:bg-pink-500 text-white font-bold transition-all shadow-md hover:scale-105 active:scale-95 text-sm";
+                goInNoBtn.onclick = handleGoInYes;
+            });
+        }
+
+        function handleGoInYes() {
+            playSound('door');
+            if (goInModal) goInModal.classList.add('opacity-0');
+            setTimeout(() => {
+                if (goInModal) goInModal.classList.add('hidden');
+                dino.isInside = true;
+                
+                setTimeout(() => {
+                    if (stageDino) stageDino.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (stageDino) stageDino.classList.add('hidden');
+                        if (stageHouseInside) stageHouseInside.classList.remove('hidden');
+                        setTimeout(() => {
+                            if (stageHouseInside) stageHouseInside.classList.remove('opacity-0');
+                            startHouseInteriorAnimation();
+                        }, 50);
+                    }, 600);
+                }, 400);
+
+            }, 400);
+        }
+
+        if (goInYesBtn) goInYesBtn.addEventListener('click', handleGoInYes);
+
+        let houseAnimFrame = null;
+        let houseDinoX = -80;
+        let houseLegFrame = 0;
+        let hasTriggeredShockSound = false;
+
+        const houseSpectatorDinos = [
+            { x: 130, baseY: 270, color: '#4ADE80', hatColor: '#EF4444', facingLeft: false, bounceOffset: 0 },
+            { x: 250, baseY: 270, color: '#A855F7', hatColor: '#FACC15', facingLeft: false, bounceOffset: 1.2 },
+            { x: 630, baseY: 270, color: '#38BDF8', hatColor: '#EC4899', facingLeft: true, bounceOffset: 2.4 },
+            { x: 760, baseY: 270, color: '#FACC15', hatColor: '#10B981', facingLeft: true, bounceOffset: 3.6 }
+        ];
+
+        function drawBigPixelDinoColored(hCtx, x, y, frame, color = '#f472b6', hasHat = false, hatColor = '#EF4444', facingLeft = false, isShocked = false) {
+            const scale = 2.2;
+            hCtx.save();
+            hCtx.translate(x, y);
+
+            if (facingLeft) {
+                hCtx.scale(-1, 1);
+                hCtx.translate(-32 * scale, 0);
+            }
+
+            hCtx.fillStyle = color;
+            hCtx.fillRect(18*scale, 0*scale, 14*scale, 12*scale);
+            hCtx.fillRect(22*scale, 3*scale, 3*scale, 3*scale);
+
+            if (isShocked) {
+                hCtx.fillStyle = '#FFFFFF';
+                hCtx.fillRect(21*scale, 2*scale, 5*scale, 5*scale);
+                hCtx.fillStyle = '#000000';
+                hCtx.fillRect(23*scale, 3*scale, 2*scale, 2*scale);
+            } else {
+                hCtx.fillStyle = '#FFFFFF';
+                hCtx.fillRect(23*scale, 4*scale, 2*scale, 2*scale);
+                hCtx.fillStyle = '#000000';
+                hCtx.fillRect(24*scale, 4.5*scale, 1*scale, 1*scale);
+            }
+
+            hCtx.fillStyle = color;
+            hCtx.fillRect(26*scale, 8*scale, 6*scale, 2*scale);
+            hCtx.fillRect(8*scale, 12*scale, 18*scale, 16*scale);
+            hCtx.fillRect(0*scale, 14*scale, 8*scale, 6*scale);
+            hCtx.fillRect(2*scale, 20*scale, 6*scale, 4*scale);
+            hCtx.fillRect(22*scale, 16*scale, 5*scale, 3*scale);
+
+            if (frame % 8 < 4) {
+                hCtx.fillRect(10*scale, 28*scale, 5*scale, 10*scale);
+                hCtx.fillRect(18*scale, 28*scale, 5*scale, 5*scale);
+            } else {
+                hCtx.fillRect(10*scale, 28*scale, 5*scale, 5*scale);
+                hCtx.fillRect(18*scale, 28*scale, 5*scale, 10*scale);
+            }
+
+            if (hasHat) {
+                hCtx.fillStyle = hatColor;
+                hCtx.beginPath();
+                hCtx.moveTo(21*scale, 0);
+                hCtx.lineTo(25*scale, -12*scale);
+                hCtx.lineTo(29*scale, 0);
+                hCtx.closePath();
+                hCtx.fill();
+
+                hCtx.fillStyle = '#FFFFFF';
+                hCtx.fillRect(23.5*scale, -14*scale, 3*scale, 3*scale);
+            }
+
+            hCtx.restore();
+        }
+
+        // Draw Pixelated Table & Pixelated Cake inside house
+        function drawPixelTableAndCake(hCtx, now) {
+            // Table legs
+            hCtx.fillStyle = '#451a03';
+            hCtx.fillRect(415, 301, 12, 55); // Left front leg
+            hCtx.fillRect(430, 298, 10, 50); // Left back leg
+            hCtx.fillRect(523, 301, 12, 55); // Right front leg
+            hCtx.fillRect(510, 298, 10, 50); // Right back leg
+
+            // Table top
+            hCtx.fillStyle = '#b45309';
+            hCtx.fillRect(405, 285, 140, 16);
+            hCtx.fillStyle = '#78350f';
+            hCtx.fillRect(405, 297, 140, 4);
+
+            // Pixel Cake Base Plate
+            hCtx.fillStyle = '#fbcfe8';
+            hCtx.fillRect(435, 280, 80, 5);
+            hCtx.fillStyle = '#be185d';
+            hCtx.fillRect(430, 283, 90, 2);
+
+            // Cake Layer 1 (Bottom)
+            hCtx.fillStyle = '#be185d';
+            hCtx.fillRect(443, 255, 64, 25);
+            hCtx.fillStyle = '#f472b6'; // Frosting drips
+            hCtx.fillRect(443, 255, 64, 6);
+            hCtx.fillRect(449, 261, 8, 8);
+            hCtx.fillRect(475, 261, 10, 6);
+            hCtx.fillRect(495, 261, 6, 9);
+
+            // Cake Layer 2 (Top)
+            hCtx.fillStyle = '#f472b6';
+            hCtx.fillRect(451, 237, 48, 18);
+            hCtx.fillStyle = '#ffffff'; // White icing
+            hCtx.fillRect(451, 237, 48, 5);
+            hCtx.fillRect(457, 242, 6, 5);
+            hCtx.fillRect(479, 242, 8, 4);
+
+            // Pixel Candles
+            const candleXs = [460, 475, 490];
+            candleXs.forEach((cx, idx) => {
+                // Candle stick
+                hCtx.fillStyle = idx % 2 === 0 ? '#38bdf8' : '#facc15';
+                hCtx.fillRect(cx, 225, 4, 12);
+                hCtx.fillStyle = '#ffffff';
+                hCtx.fillRect(cx, 227, 4, 2);
+
+                // Flickering Flame
+                const flicker = Math.sin(now * 0.01 + idx) * 1.5;
+                hCtx.fillStyle = '#f97316';
+                hCtx.fillRect(cx - 1, 218 + flicker, 6, 7);
+                hCtx.fillStyle = '#fef08a';
+                hCtx.fillRect(cx, 219 + flicker, 4, 4);
+            });
+        }
+
+        function startHouseInteriorAnimation() {
+            const hCanvas = document.getElementById('houseCanvas');
+            if (!hCanvas) return;
+            const hCtx = hCanvas.getContext('2d');
+
+            let time = 0;
+            hasTriggeredShockSound = false;
+
+            function animateHouse() {
+                time++;
+                hCtx.fillStyle = '#1c0512';
+                hCtx.fillRect(0, 0, 950, 360);
+
+                // Floor
+                hCtx.fillStyle = '#2d081e';
+                hCtx.fillRect(0, 360, 950, 100);
+                hCtx.fillStyle = '#be185d';
+                hCtx.fillRect(0, 356, 950, 4);
+
+                // Banner
+                hCtx.fillStyle = '#ec4899';
+                hCtx.fillRect(200, 35, 550, 28);
+                hCtx.fillStyle = '#ffffff';
+                hCtx.font = 'bold 12px "Press Start 2P"';
+                hCtx.textAlign = 'center';
+                hCtx.fillText("HAPPY BIRTHDAY TEACHER!", 475, 54);
+
+                // Windows
+                hCtx.fillStyle = '#f472b6';
+                hCtx.fillRect(60, 80, 90, 110);
+                hCtx.fillRect(800, 80, 90, 110);
+                hCtx.fillStyle = '#0d0208';
+                hCtx.fillRect(65, 85, 80, 100);
+                hCtx.fillRect(805, 85, 80, 100);
+
+                // Draw Table & Cake in center space
+                drawPixelTableAndCake(hCtx, Date.now());
+
+                // Cheering Spectator Dinos
+                houseSpectatorDinos.forEach((s, i) => {
+                    let bounce = Math.abs(Math.sin((time * 0.12) + s.bounceOffset)) * 14;
+                    drawBigPixelDinoColored(hCtx, s.x, s.baseY - bounce, time, s.color, true, s.hatColor, s.facingLeft, false);
+                });
+
+                // Walking Celebrated Dino
+                if (houseDinoX < 330) {
+                    houseDinoX += 2.8;
+                    houseLegFrame++;
+                } else if (!hasTriggeredShockSound) {
+                    hasTriggeredShockSound = true;
+                    playSound('shock');
+                }
+
+                let isDinoShocked = (houseDinoX >= 330);
+                let celebratedDinoY = 270;
+                if (isDinoShocked) {
+                    celebratedDinoY = 270 - Math.abs(Math.sin(time * 0.15)) * 8;
+                }
+
+                drawBigPixelDinoColored(hCtx, houseDinoX, celebratedDinoY, houseLegFrame, '#f472b6', true, '#EC4899', false, isDinoShocked);
+
+                houseAnimFrame = requestAnimationFrame(animateHouse);
+            }
+
+            if (houseAnimFrame) cancelAnimationFrame(houseAnimFrame);
+            animateHouse();
+        }
+
+        if (openMainCakeBtn) {
+            openMainCakeBtn.addEventListener('click', () => {
+                playSound('click');
+                stageHouseInside.classList.add('opacity-0');
+                setTimeout(() => {
+                    stageHouseInside.classList.add('hidden');
+                    stage2.classList.remove('hidden');
+                    setTimeout(() => stage2.classList.remove('opacity-0'), 50);
+                }, 600);
+            });
+        }
+
+        function setupCandleBlowing() {
+            const candleFlames = [
+                document.getElementById('candleFlame1'),
+                document.getElementById('candleFlame2'),
+                document.getElementById('candleFlame3')
+            ];
+
+            candleFlames.forEach((flame, index) => {
+                if (!flame) return;
+                flame.addEventListener('click', () => {
+                    if (activeCandles[index]) {
+                        activeCandles[index] = false;
+                        flame.classList.add('extinguish');
+                        playSound('blow');
+                        blownCandleCount++;
+
+                        if (blownCandleCount === 3) {
+                            handleAllCandlesBlown();
+                        }
+                    }
+                });
+            });
+        }
+
+        function handleAllCandlesBlown() {
+            const cakeWrapper = document.getElementById('cakeWrapper');
+            const instructionNote = document.getElementById('candleInstructionNote');
+            const instructionText = document.getElementById('candleInstructionText');
+            const instructionIcon = document.getElementById('candleInstructionIcon');
+
+            playSound('explode');
+            if (cakeWrapper) cakeWrapper.classList.add('cake-exploded');
+            triggerConfetti();
+            triggerFireworks();
+
+            if (instructionText) instructionText.innerText = "alamak, the cake exploded.. demm.";
+            if (instructionIcon) instructionIcon.innerText = "💥";
+
+            // Wait 2 seconds after exploding, then restore cake back to normal
+            setTimeout(() => {
+                if (cakeWrapper) cakeWrapper.classList.remove('cake-exploded');
+                
+                // Un-extinguish flames and reset state
+                const flames = document.querySelectorAll('.pixel-flame');
+                flames.forEach(f => f.classList.remove('extinguish'));
+                activeCandles = [true, true, true];
+                blownCandleCount = 0;
+
+                if (instructionText) instructionText.innerText = "ehhh neverminddd, it's back to normal, oops 🤗";
+                if (instructionIcon) instructionIcon.innerText = "🎂";
+
+                // Transition to confirmation modal
+                setTimeout(() => {
+                    if (stage2) stage2.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (stage2) stage2.classList.add('hidden');
+                        if (confirmModal) {
+                            confirmModal.classList.remove('hidden');
+                            setTimeout(() => confirmModal.classList.remove('opacity-0'), 50);
+                        }
+                    }, 600);
+                }, 1000);
+
+            }, 2000);
+        }
+
+        setupCandleBlowing();
+
+        function handleConfirmStep1Next() {
+            playSound('click');
+            confirmStep1.classList.add('hidden');
+            confirmStep2.classList.remove('hidden');
+        }
+
+        if (sureYesBtn1) sureYesBtn1.addEventListener('click', handleConfirmStep1Next);
+        if (sureYesBtn2) sureYesBtn2.addEventListener('click', handleConfirmStep1Next);
+
+        function handleConfirmStep2Next() {
+            playSound('click');
+            confirmModal.classList.add('opacity-0');
+            setTimeout(() => {
+                confirmModal.classList.add('hidden');
+                if (stageQuiz) stageQuiz.classList.remove('hidden');
+                setTimeout(() => stageQuiz.classList.remove('opacity-0'), 50);
+            }, 500);
+        }
+
+        if (superSureYesBtn2) superSureYesBtn2.addEventListener('click', handleConfirmStep2Next);
+
+        let quizAnswers = { q1: null, q2: null, q3: null };
+
+        document.querySelectorAll('.quiz-opt-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                playSound('quiz_select');
+                const qNum = btn.getAttribute('data-q');
+                const val = btn.getAttribute('data-val');
+
+                document.querySelectorAll(`.quiz-opt-btn[data-q="${qNum}"]`).forEach(b => {
+                    b.classList.remove('bg-pink-600', 'text-white', 'border-pink-300');
+                    b.classList.add('text-pink-300', 'border-pink-800/80');
+                });
+
+                btn.classList.add('bg-pink-600', 'text-white', 'border-pink-300');
+                quizAnswers[`q${qNum}`] = val;
+
+                const errorMsg = document.getElementById('quizErrorMsg');
+                if (errorMsg) errorMsg.classList.add('hidden');
+            });
+        });
+
+        const submitQuizBtn = document.getElementById('submitQuizBtn');
+        if (submitQuizBtn) {
+            submitQuizBtn.addEventListener('click', () => {
+                if (!quizAnswers.q1 || !quizAnswers.q2 || !quizAnswers.q3) {
+                    const errorMsg = document.getElementById('quizErrorMsg');
+                    if (errorMsg) errorMsg.classList.remove('hidden');
+                    return;
+                }
+
+                playSound('click');
+                submitQuizBtn.classList.add('hidden');
+
+                const resultDisplay = document.getElementById('quizResultDisplay');
+                if (resultDisplay) resultDisplay.classList.remove('hidden');
+
+                const box1 = document.getElementById('boxQ1');
+                const box2 = document.getElementById('boxQ2');
+                const box3 = document.getElementById('boxQ3');
+
+                setTimeout(() => {
+                    if (box1) { box1.innerText = quizAnswers.q1; playSound('click'); }
+                    setTimeout(() => {
+                        if (box2) { box2.innerText = quizAnswers.q2; playSound('click'); }
+                        setTimeout(() => {
+                            if (box3) { box3.innerText = quizAnswers.q3; playSound('click'); }
+                            
+                            setTimeout(() => {
+                                playILoveYouSound();
+                                triggerConfetti();
+                                const meaningBanner = document.getElementById('ilyMeaningBanner');
+                                if (meaningBanner) {
+                                    meaningBanner.classList.remove('hidden');
+                                    setTimeout(() => {
+                                        meaningBanner.classList.remove('opacity-0', 'scale-90');
+                                        meaningBanner.classList.add('opacity-100', 'scale-100');
+                                    }, 50);
+                                }
+
+                                setTimeout(() => {
+                                    if (stageQuiz) stageQuiz.classList.add('opacity-0');
+                                    setTimeout(() => {
+                                        if (stageQuiz) stageQuiz.classList.add('hidden');
+                                        showBdayNotesModal();
+                                    }, 600);
+                                }, 3500);
+
+                            }, 800);
+                        }, 500);
+                    }, 500);
+                }, 600);
+            });
+        }
+        
+        const bdayNotesList = [
+            { emoji: "🥳", msg: "Hepi birthday teacherrrr!" },
+            { emoji: "💖", msg: "semoga teacher dimurahkan rezeki selaluuu!" },
+            { emoji: "🤍", msg: "may Allah ease everything for you teacherr" },
+            { emoji: "🌸", msg: "thank you for teaching us this year! tak menyesal punn belajar with a teacher like you :)" },
+            { emoji: "💐", msg: "thank you for being the reason i'm happy" },
+            { emoji: "🎀", msg: "thank you for always believing in me." },
+            { emoji: "💢", msg: "you deserve an A+ sebab menjadi teacher yang best hihi" }
+        ];
+
+        let currentNoteIdx = 0;
+        let isDraggingNote = false;
+        let noteStartX = 0;
+        let noteCurrentX = 0;
+
+        function updateNoteDisplay() {
+            const emojiEl = document.getElementById('noteEmoji');
+            const msgEl = document.getElementById('noteMessage');
+            const counterEl = document.getElementById('noteBadgeCounter');
+            const progressEl = document.getElementById('noteProgressBar');
+            const dotsContainer = document.getElementById('dotsContainer');
+
+            if (emojiEl) emojiEl.innerText = bdayNotesList[currentNoteIdx].emoji;
+            if (msgEl) msgEl.innerText = bdayNotesList[currentNoteIdx].msg;
+            if (counterEl) counterEl.innerText = `Note ${currentNoteIdx + 1} of 7`;
+            if (progressEl) progressEl.style.width = `${((currentNoteIdx + 1) / 7) * 100}%`;
+
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+                bdayNotesList.forEach((_, idx) => {
+                    const dot = document.createElement('div');
+                    dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${idx === currentNoteIdx ? 'bg-pink-500 w-6' : 'bg-pink-950'}`;
+                    dotsContainer.appendChild(dot);
+                });
+            }
+        }
+
+        function showBdayNotesModal() {
+            currentNoteIdx = 0;
+            updateNoteDisplay();
+            if (bdayNotesModal) {
+                bdayNotesModal.classList.remove('hidden');
+                setTimeout(() => bdayNotesModal.classList.remove('opacity-0'), 50);
+            }
+        }
+
+        const noteCard = document.getElementById('bdayNoteCard');
+        if (noteCard) {
+            function handleStart(clientX) {
+                isDraggingNote = true;
+                noteStartX = clientX;
+                noteCard.style.transition = 'none';
+            }
+
+            function handleMove(clientX) {
+                if (!isDraggingNote) return;
+                noteCurrentX = clientX - noteStartX;
+                noteCard.style.transform = `translateX(${noteCurrentX}px) rotate(${noteCurrentX * 0.04}deg)`;
+            }
+
+            function handleEnd() {
+                if (!isDraggingNote) return;
+                isDraggingNote = false;
+                noteCard.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+
+                if (noteCurrentX < -70) {
+                    // Next note
+                    if (currentNoteIdx < bdayNotesList.length - 1) {
+                        currentNoteIdx++;
+                        playSound('slide');
+                        updateNoteDisplay();
+                    } else {
+                        // End of 7 notes: Trigger flying paper plane first, then mail arrival!
+                        closeNotesAndTriggerPaperPlane();
+                    }
+                } else if (noteCurrentX > 70) {
+                    // Prev note
+                    if (currentNoteIdx > 0) {
+                        currentNoteIdx--;
+                        playSound('slide');
+                        updateNoteDisplay();
+                    }
+                }
+
+                noteCard.style.transform = 'translateX(0px) rotate(0deg)';
+                noteCurrentX = 0;
+            }
+
+            noteCard.addEventListener('mousedown', (e) => handleStart(e.clientX));
+            window.addEventListener('mousemove', (e) => handleMove(e.clientX));
+            window.addEventListener('mouseup', handleEnd);
+
+            noteCard.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX), { passive: true });
+            window.addEventListener('touchmove', (e) => {
+                if (isDraggingNote) handleMove(e.touches[0].clientX);
+            }, { passive: true });
+            window.addEventListener('touchend', handleEnd);
+        }
+
+        function closeNotesAndTriggerPaperPlane() {
+            if (bdayNotesModal) bdayNotesModal.classList.add('opacity-0');
+            setTimeout(() => {
+                if (bdayNotesModal) bdayNotesModal.classList.add('hidden');
+                
+                // Fly paper plane first!
+                triggerPaperPlaneAndShowMail();
+
+            }, 400);
+        }
+
+        function triggerPaperPlaneAndShowMail() {
+            if (!paperPlane) return;
+
+            playSound('plane_fly');
+            paperPlane.classList.remove('opacity-0');
+            paperPlane.classList.add('animate-plane-flyby');
+
+            setTimeout(() => {
+                paperPlane.classList.remove('animate-plane-flyby');
+                paperPlane.classList.add('opacity-0');
+
+                // Show Mail Arrival Stage AFTER paper plane finishes flying!
+                if (stageMailArrival) {
+                    stageMailArrival.classList.remove('hidden');
+                    setTimeout(() => stageMailArrival.classList.remove('opacity-0'), 50);
+                }
+
+            }, 2400);
+        }
+
+        const mailEnvelopeBtn = document.getElementById('mailEnvelopeBtn');
+        if (mailEnvelopeBtn) {
+            mailEnvelopeBtn.addEventListener('click', () => {
+                playSound('win');
+                triggerConfetti();
+
+                stageMailArrival.classList.add('opacity-0');
+                setTimeout(() => {
+                    stageMailArrival.classList.add('hidden');
+                    if (stage4) stage4.classList.remove('hidden');
+                    setTimeout(() => stage4.classList.remove('opacity-0'), 50);
+                }, 600);
+            });
+        }
+    </script>
+</body>
+</html>
